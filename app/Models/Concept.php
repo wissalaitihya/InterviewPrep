@@ -15,7 +15,7 @@ class Concept extends Model
     {
         return $this->belongsTo(Domain::class);
     }
-    public function generatedQuestion()
+    public function generatedQuestions()
     {
         return $this->hasMany(GeneratedQuestion::class);
     }
