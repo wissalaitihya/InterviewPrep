@@ -14,6 +14,7 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <x-auth-session-status class="mb-4" :status="session('success')" />
+            <x-auth-session-status class="mb-4" :status="session('error')" />
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 mb-6">
                 <div class="flex items-start justify-between">
@@ -44,6 +45,10 @@
                         @csrf
                         <x-primary-button type="submit">Statut suivant</x-primary-button>
                     </form>
+                    <form method="POST" action="{{ route('concepts.generate', [$domain->id, $concept->id]) }}">
+                        @csrf
+                        <x-secondary-button type="submit">Generer des questions d'entretien</x-secondary-button>
+                    </form>
                     <a href="{{ route('concepts.edit', [$domain->id, $concept->id]) }}">
                         <x-secondary-button>Modifier</x-secondary-button>
                     </a>
@@ -56,28 +61,28 @@
             </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-semibold text-gray-900">Questions generees</h2>
-                    <a href="#" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium" id="generate-questions-btn">
-                        Generer des questions d'entretien
-                    </a>
-                </div>
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Questions generees</h2>
 
                 @if ($concept->generatedQuestions->isEmpty())
-                    <p class="text-gray-500 text-sm">Aucune question generee pour le moment.</p>
+                    <p class="text-gray-500 text-sm">Aucune question generee pour le moment. Cliquez sur "Generer des questions d'entretien" pour commencer.</p>
                 @else
-                    <ul class="space-y-3">
-                        @foreach ($concept->generatedQuestions as $gq)
-                            <li class="border-l-4 border-indigo-200 pl-4 py-2">
-                                <p class="text-gray-800 text-sm font-medium">Generation du {{ $gq->created_at->format('d/m/Y H:i') }}</p>
-                                <ul class="mt-2 space-y-1">
-                                    @foreach ($gq->questions as $q)
-                                        <li class="text-gray-700 text-sm list-disc list-inside">{{ $q }}</li>
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @endforeach
-                    </ul>
+                    @foreach ($concept->generatedQuestions as $gq)
+                        <div class="border-l-4 border-indigo-200 pl-4 py-3 mb-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <p class="text-gray-500 text-sm font-medium">Generation du {{ $gq->created_at->format('d/m/Y H:i') }}</p>
+                                <form method="POST" action="{{ route('generated-questions.destroy', $gq->id) }}" onsubmit="return confirm('Supprimer cette generation ?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700 text-xs font-medium">Supprimer</button>
+                                </form>
+                            </div>
+                            <ul class="space-y-2">
+                                @foreach ($gq->questions as $q)
+                                    <li class="text-gray-700 text-sm">{{ $loop->iteration }}. {{ $q }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
                 @endif
             </div>
         </div>
