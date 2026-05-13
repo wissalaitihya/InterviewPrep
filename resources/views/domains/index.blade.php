@@ -35,7 +35,7 @@
                             @foreach ($domains as $domain)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <a href="{{ route('concepts.index', $domain->id) }}" class="text-gray-900 hover:text-indigo-600 font-medium">
+                                        <a href="{{ route('domains.show', $domain) }}" class="text-gray-900 hover:text-indigo-600 font-medium">
                                             {{ $domain->name }}
                                         </a>
                                     </td>
@@ -50,7 +50,6 @@
                                         {{ $domain->mastered_concepts_count }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
-                                        <a href="{{ route('concepts.index', $domain->id) }}" class="text-indigo-600 hover:text-indigo-900">Concepts</a>
                                         <a href="{{ route('domains.edit', $domain) }}" class="text-indigo-600 hover:text-indigo-900">Modifier</a>
                                         <form method="POST" action="{{ route('domains.destroy', $domain) }}" class="inline" onsubmit="return confirm('Supprimer ce domaine et tous ses concepts ?')">
                                             @csrf
