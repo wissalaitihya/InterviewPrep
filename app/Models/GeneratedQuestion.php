@@ -11,6 +11,7 @@ class GeneratedQuestion extends Model
     protected $casts = [
         'questions' => 'array',
     ];
+
     public function concept()
     {
         return $this->belongsTo(Concept::class);

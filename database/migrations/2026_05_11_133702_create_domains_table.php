@@ -1,4 +1,5 @@
 <?php
+
 namespace Database\Migrat;
 
 use Illuminate\Database\Migrations\Migration;
@@ -11,17 +12,17 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-{
-    Schema::create('domains', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')
-              ->constrained()
-              ->cascadeOnDelete();
-        $table->string('name');
-        $table->string('color', 7)->default('#3B82F6');
-        $table->timestamps();
-    });
-}
+    {
+        Schema::create('domains', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->string('name');
+            $table->string('color', 7)->default('#3B82F6');
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.
