@@ -1,16 +1,214 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+    <div class="p-md md:p-2xl max-w-container-max mx-auto w-full flex-1 flex flex-col gap-lg">
+        {{-- Page Header --}}
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-md">
+            <div>
+                <h2 class="font-display text-h1 font-bold text-on-surface tracking-tight leading-tight">
+                    Welcome back, {{ explode(' ', Auth::user()->name)[0] }}
+                </h2>
+                <p class="font-body-lg text-on-surface-variant mt-xs">
+                    You've mastered <span class="text-primary font-semibold">{{ $masteryRate ?? 0 }}%</span> of your technical concepts. Keep it up!
+                </p>
+            </div>
+            <div class="flex items-center gap-sm">
+                 <a href="{{ route('domains.index') }}" class="btn-ghost flex items-center gap-sm">
+                    <span class="material-symbols-outlined text-[20px]">category</span>
+                    Browse Domains
+                </a>
+                <a href="{{ route('domains.create') }}" class="btn-primary flex items-center gap-sm">
+                    <span class="material-symbols-outlined text-[20px]">add</span>
+                    New Domain
+                </a>
+            </div>
+        </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+        {{-- Row 1: Global Stats Widgets --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+            {{-- Total Concepts --}}
+            <div class="glass-panel rounded-2xl p-xl group transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-md">
+                    <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                        <span class="material-symbols-outlined text-[22px]">library_books</span>
+                    </div>
+                    <span class="px-sm py-xs rounded-full bg-primary/10 text-primary text-[10px] font-bold">+{{ $newThisWeek ?? 0 }} THIS WEEK</span>
                 </div>
+                <p class="text-on-surface-variant text-label-caps font-semibold mb-xs">Total Concepts</p>
+                <h3 class="font-display text-4xl font-bold text-on-surface tracking-tight">{{ $totalConcepts ?? 0 }}</h3>
+                <div class="mt-lg h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+                    <div class="h-full bg-primary rounded-full transition-all duration-1000" style="width: {{ $conceptProgress ?? 0 }}%"></div>
+                </div>
+            </div>
+
+            {{-- Mastery Rate --}}
+            <div class="glass-panel rounded-2xl p-xl group transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-md">
+                    <div class="w-10 h-10 rounded-xl bg-tertiary/10 flex items-center justify-center text-tertiary">
+                        <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">psychology</span>
+                    </div>
+                    <div class="flex items-center text-tertiary text-[10px] font-bold">
+                         <span class="material-symbols-outlined text-[14px]">trending_up</span>
+                    </div>
+                </div>
+                <p class="text-on-surface-variant text-label-caps font-semibold mb-xs">Mastery Rate</p>
+                <div class="flex items-baseline gap-xs">
+                    <h3 class="font-display text-4xl font-bold text-on-surface tracking-tight">{{ $masteryRate ?? 0 }}%</h3>
+                    <span class="text-on-surface-variant text-body-sm">average</span>
+                </div>
+                <p class="mt-md text-on-surface-variant text-[11px] leading-relaxed">
+                    Based on your mastery status across all technical domains.
+                </p>
+            </div>
+
+            {{-- AI Generations --}}
+            <div class="glass-panel rounded-2xl p-xl group transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-md">
+                    <div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary">
+                        <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+                    </div>
+                    <span class="material-symbols-outlined text-secondary/40 text-[20px]">bolt</span>
+                </div>
+                <p class="text-on-surface-variant text-label-caps font-semibold mb-xs">AI Sessions</p>
+                <h3 class="font-display text-4xl font-bold text-on-surface tracking-tight">{{ $questionsGenerated ?? 0 }}</h3>
+                <p class="mt-md text-on-surface-variant text-[11px] leading-relaxed">
+                    Personalized questions generated by Groq AI from your notes.
+                </p>
+            </div>
+
+            {{-- Study Streak --}}
+            <div class="glass-panel rounded-2xl p-xl group transition-all hover:-translate-y-1">
+                <div class="flex justify-between items-start mb-md">
+                    <div class="w-10 h-10 rounded-xl bg-error/10 flex items-center justify-center text-error">
+                        <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                    </div>
+                    <span class="text-error font-bold text-body-sm">{{ $daysStreak ?? 0 }}d</span>
+                </div>
+                <p class="text-on-surface-variant text-label-caps font-semibold mb-xs">Study Streak</p>
+                <h3 class="font-display text-4xl font-bold text-on-surface tracking-tight">{{ $daysStreak ?? 0 }} <span class="text-body-lg font-medium">days</span></h3>
+                <div class="flex gap-1.5 mt-lg">
+                    @for ($i = 1; $i <= 7; $i++)
+                        <div class="h-1.5 flex-1 rounded-full {{ $i <= ($daysStreak % 7 ?: ($daysStreak > 0 ? 7 : 0)) ? 'bg-error shadow-[0_0_8px_rgba(239,68,68,0.4)]' : 'bg-surface-container' }}"></div>
+                    @endfor
+                </div>
+            </div>
+        </div>
+
+        {{-- Row 2: Charts & Focus Areas --}}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+            {{-- Mastery Over Time Chart (Mockup SVG for aesthetic) --}}
+            <div class="lg:col-span-2 glass-panel rounded-2xl overflow-hidden flex flex-col">
+                <div class="px-xl py-lg border-b border-outline-variant flex items-center justify-between bg-surface-container-low/50">
+                    <h3 class="font-h3 text-h3 text-on-surface flex items-center gap-sm">
+                        <span class="material-symbols-outlined text-primary text-[20px]">show_chart</span>
+                        Mastery Progression
+                    </h3>
+                    <div class="flex items-center gap-md">
+                        <div class="flex items-center gap-xs text-[11px] text-on-surface-variant font-medium">
+                            <span class="w-2 h-2 rounded-full bg-primary"></span> Progress
+                        </div>
+                    </div>
+                </div>
+                <div class="p-xl flex-1 flex flex-col justify-end min-h-[300px] relative overflow-hidden">
+                    {{-- Grid lines --}}
+                    <div class="absolute inset-x-xl inset-y-xl flex flex-col justify-between pointer-events-none opacity-5">
+                        @for($i = 0; $i < 5; $i++) <div class="w-full border-t border-on-surface"></div> @endfor
+                    </div>
+                    
+                    {{-- SVG Chart Mockup --}}
+                    <svg class="w-full h-full" viewBox="0 0 1000 300" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="var(--color-primary)" stop-opacity="0.3" />
+                                <stop offset="100%" stop-color="var(--color-primary)" stop-opacity="0" />
+                            </linearGradient>
+                        </defs>
+                        <path d="M0,280 C100,260 200,270 300,220 C400,170 500,200 600,140 C700,80 800,100 900,40 C950,20 1000,10 1000,10 L1000,300 L0,300 Z" fill="url(#chartGradient)" />
+                        <path d="M0,280 C100,260 200,270 300,220 C400,170 500,200 600,140 C700,80 800,100 900,40 C950,20 1000,10 1000,10" fill="none" stroke="var(--color-primary)" stroke-width="4" stroke-linecap="round" />
+                    </svg>
+                </div>
+            </div>
+
+            {{-- Right Column: Focus Areas --}}
+            <div class="space-y-lg">
+                {{-- Focus Domain --}}
+                <div class="glass-panel rounded-2xl p-xl flex flex-col gap-lg h-full">
+                    <div class="border-b border-outline-variant pb-md">
+                        <h3 class="font-h3 text-h3 text-on-surface">Learning Focus</h3>
+                        <p class="text-on-surface-variant text-body-sm mt-xs">Highest and lowest performance areas.</p>
+                    </div>
+
+                    {{-- Top Performer --}}
+                    <div class="space-y-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="text-label-caps text-primary font-bold">Top Domain</span>
+                            <span class="text-h3 font-bold text-on-surface">{{ $bestDomain['rate'] ?? 0 }}%</span>
+                        </div>
+                        <div class="p-md rounded-xl bg-primary/5 border border-primary/10 flex items-center gap-md">
+                            <div class="w-2 h-8 rounded-full bg-primary"></div>
+                            <div>
+                                <p class="font-medium text-on-surface text-body-md">{{ $bestDomain['name'] ?? 'N/A' }}</p>
+                                <p class="text-[11px] text-on-surface-variant uppercase tracking-tighter">Peak Performance</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Needs Review --}}
+                    <div class="space-y-sm">
+                        <div class="flex justify-between items-center">
+                            <span class="text-label-caps text-tertiary font-bold">Needs Review</span>
+                            <span class="text-h3 font-bold text-on-surface">{{ $worstDomain['rate'] ?? 0 }}%</span>
+                        </div>
+                        <div class="p-md rounded-xl bg-tertiary/5 border border-tertiary/10 flex items-center gap-md">
+                            <div class="w-2 h-8 rounded-full bg-tertiary"></div>
+                            <div>
+                                <p class="font-medium text-on-surface text-body-md">{{ $worstDomain['name'] ?? 'N/A' }}</p>
+                                <p class="text-[11px] text-on-surface-variant uppercase tracking-tighter">High Impact Area</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-md border-t border-outline-variant">
+                         <a href="{{ route('domains.index') }}" class="btn-primary w-full flex items-center justify-center gap-sm">
+                            <span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+                            Start Revision Session
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {{-- Row 3: Domain Grid Preview --}}
+        <div class="mt-md">
+             <div class="flex items-center justify-between mb-lg">
+                <h3 class="font-display text-h2 font-bold text-on-surface tracking-tight">Active Domains</h3>
+                <a href="{{ route('domains.index') }}" class="text-primary text-body-sm font-semibold hover:underline flex items-center gap-xs">
+                    View All Domains
+                    <span class="material-symbols-outlined text-[16px]">arrow_right_alt</span>
+                </a>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-lg">
+                @foreach($domains->take(4) as $domain)
+                    <a href="{{ route('domains.concepts.index', $domain->id) }}" class="glass-panel rounded-2xl p-xl group transition-all hover:bg-surface-container-highest/30">
+                        <div class="flex items-center justify-between mb-lg">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background-color: {{ $domain->color }}15;">
+                                <span class="material-symbols-outlined text-[22px]" style="color: {{ $domain->color }}; font-variation-settings: 'FILL' 1;">category</span>
+                            </div>
+                            <span class="text-on-surface-variant text-[11px] font-bold">{{ $domain->concepts_count ?? 0 }} CONCEPTS</span>
+                        </div>
+                        <h4 class="font-h3 text-h3 text-on-surface group-hover:text-primary transition-colors">{{ $domain->name }}</h4>
+                        <p class="text-on-surface-variant text-[11px] mt-xs uppercase tracking-wider">{{ $domain->category ?? 'General' }}</p>
+                        
+                        <div class="mt-xl">
+                            <div class="flex justify-between items-center text-[10px] font-bold text-on-surface-variant mb-1.5">
+                                <span>MASTERY</span>
+                                <span>{{ $domain->mastery_rate ?? 0 }}%</span>
+                            </div>
+                            <div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+                                <div class="h-full rounded-full transition-all duration-700" style="background-color: {{ $domain->color }}; width: {{ $domain->mastery_rate ?? 0 }}%"></div>
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
             </div>
         </div>
     </div>

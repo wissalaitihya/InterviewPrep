@@ -1,54 +1,66 @@
 <section class="space-y-6">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
+    <div class="flex items-center gap-md">
+        <div class="flex-1">
+            <h2 class="text-lg font-semibold text-on-surface">
+                {{ __('Delete Account') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-on-surface-variant">
+                {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. This action cannot be undone.') }}
+            </p>
+        </div>
+        <button
+            type="button"
+            class="btn-danger flex items-center gap-sm px-lg"
+            x-data=""
+            x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
+        >
+            <span class="material-symbols-outlined text-[18px]">delete_forever</span>
             {{ __('Delete Account') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
-        </p>
-    </header>
-
-    <x-danger-button
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('Delete Account') }}</x-danger-button>
+        </button>
+    </div>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
+        <form method="post" action="{{ route('profile.destroy') }}" class="p-xl bg-surface-container rounded-2xl border border-outline-variant">
             @csrf
             @method('delete')
 
-            <h2 class="text-lg font-medium text-gray-900">
+            <h2 class="text-xl font-bold text-on-surface mb-md">
                 {{ __('Are you sure you want to delete your account?') }}
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600">
+            <p class="text-sm text-on-surface-variant mb-lg">
                 {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
             </p>
 
-            <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
+            <div class="space-y-sm">
+                <label class="label-base" for="password">{{ __('Password') }}</label>
 
-                <x-text-input
+                <input
                     id="password"
                     name="password"
                     type="password"
-                    class="mt-1 block w-3/4"
-                    placeholder="{{ __('Password') }}"
+                    class="input-base"
+                    placeholder="{{ __('Confirm your password') }}"
                 />
 
-                <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+                @if($errors->userDeletion->has('password'))
+                    <p class="text-error text-body-sm flex items-center gap-xs mt-xs">
+                        <span class="material-symbols-outlined text-[14px]">error</span>
+                        {{ $errors->userDeletion->first('password') }}
+                    </p>
+                @endif
             </div>
 
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
+            <div class="mt-xl flex justify-end gap-md pt-lg border-t border-outline-variant">
+                <button type="button" class="btn-ghost" x-on:click="$dispatch('close')">
                     {{ __('Cancel') }}
-                </x-secondary-button>
+                </button>
 
-                <x-danger-button class="ms-3">
-                    {{ __('Delete Account') }}
-                </x-danger-button>
+                <button type="submit" class="btn-danger flex items-center gap-sm">
+                    <span class="material-symbols-outlined text-[18px]">delete_forever</span>
+                    {{ __('Permanently Delete Account') }}
+                </button>
             </div>
         </form>
     </x-modal>

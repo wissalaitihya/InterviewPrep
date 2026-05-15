@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Domains - InterviewPrep</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#bfb2da",
+                        "on-tertiary-container": "#503d00",
+                        "outline-variant": "#494551",
+                        "surface-tint": "#cfbcff",
+                        "on-surface": "#e6e0e9",
+                        "secondary-fixed-dim": "#cdc0e9",
+                        "surface-variant": "#36343a",
+                        "surface-bright": "#3b383e",
+                        "secondary-fixed": "#e9ddff",
+                        "inverse-surface": "#e6e0e9",
+                        "on-secondary-fixed": "#1f1635",
+                        "background": "#141218",
+                        "on-error-container": "#ffdad6",
+                        "on-tertiary-fixed-variant": "#594400",
+                        "error": "#ffb4ab",
+                        "surface-container-lowest": "#0f0d13",
+                        "surface-container-highest": "#36343a",
+                        "surface": "#141218",
+                        "on-tertiary": "#3e2e00",
+                        "tertiary": "#e7c365",
+                        "tertiary-fixed": "#ffdf93",
+                        "primary-fixed-dim": "#cfbcff",
+                        "on-surface-variant": "#cbc4d2",
+                        "primary-container": "#6750a4",
+                        "on-error": "#690005",
+                        "surface-dim": "#141218",
+                        "primary": "#cfbcff",
+                        "surface-container-low": "#1d1b20",
+                        "on-primary-container": "#e0d2ff",
+                        "secondary": "#cdc0e9",
+                        "on-secondary-fixed-variant": "#4b4263",
+                        "surface-container-high": "#2b292f",
+                        "on-secondary": "#342b4b",
+                        "tertiary-fixed-dim": "#e7c365",
+                        "surface-container": "#211f24",
+                        "inverse-primary": "#6750a4",
+                        "error-container": "#93000a",
+                        "inverse-on-surface": "#322f35",
+                        "on-background": "#e6e0e9",
+                        "on-primary-fixed": "#22005d",
+                        "on-primary-fixed-variant": "#4f378a",
+                        "outline": "#948e9c",
+                        "secondary-container": "#4d4465",
+                        "primary-fixed": "#e9ddff",
+                        "on-tertiary-fixed": "#241a00",
+                        "tertiary-container": "#c9a74d",
+                        "on-primary": "#381e72"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "2xl": "3rem",
+                        "gutter": "1.5rem",
+                        "md": "1rem",
+                        "container-max": "1440px",
+                        "base": "4px",
+                        "lg": "1.5rem",
+                        "xl": "2rem",
+                        "sm": "0.5rem",
+                        "xs": "0.25rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Geist", "sans-serif"],
+                        "body-lg": ["Geist", "sans-serif"],
+                        "h3": ["Geist", "sans-serif"],
+                        "h2": ["Geist", "sans-serif"],
+                        "h1": ["Geist", "sans-serif"],
+                        "label-caps": ["Geist", "sans-serif"],
+                        "display": ["Geist", "sans-serif"],
+                        "body-sm": ["Geist", "sans-serif"],
+                        "code": ["JetBrains Mono", "monospace"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "h3": ["18px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "h2": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "h1": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-sm": ["13px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "code": ["13px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .glass-panel { background: rgba(22, 27, 34, 0.7); backdrop-filter: blur(12px); border: 1px solid theme('colors.outline-variant'); }
+        .ai-gradient-text { background: linear-gradient(to right, theme('colors.primary'), theme('colors.tertiary')); -webkit-background-clip: text; color: transparent; }
+        .ai-gradient-bg { background: linear-gradient(135deg, theme('colors.primary-container'), theme('colors.secondary-container')); }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden font-body-md text-body-md">
+<!-- SideNavBar -->
+<nav class="hidden md:flex bg-surface-container text-primary font-body-sm text-body-sm fixed left-0 top-0 bottom-0 flex flex-col p-md z-50 overflow-y-auto border-r border-outline-variant h-screen w-64">
+<div class="mb-xl">
+<h1 class="font-display text-h2 font-bold text-on-surface">DevPrep AI</h1>
+<p class="text-on-surface-variant mt-xs">Interview Engine</p>
+</div>
+<button class="w-full flex items-center justify-center gap-sm bg-surface-container-highest border border-outline-variant rounded-lg py-sm px-md text-on-surface hover:bg-surface-container-high transition-colors mb-lg group">
+<span class="material-symbols-outlined text-[18px]">search</span>
+<span>Search (⌘K)</span>
+</button>
+<div class="flex-1 space-y-sm">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-primary font-bold bg-primary-container/10 border-r-2 border-primary Active: scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined">category</span>
+<span>Domains</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Archive</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+</div>
+<div class="mt-auto space-y-sm pt-md border-t border-outline-variant">
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150" href="#">
+<span class="material-symbols-outlined">help_outline</span>
+<span>Support</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-all duration-150" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col h-screen overflow-hidden">
+<!-- TopAppBar -->
+<header class="bg-surface text-primary font-body-md text-body-md flex justify-between items-center px-lg py-md w-full sticky top-0 z-40 border-b border-outline-variant">
+<div class="flex items-center gap-sm text-on-surface-variant font-medium">
+<span>DevPrep</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-on-surface">Domains</span>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-sm rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors duration-200">
+<span class="material-symbols-outlined">history</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant cursor-pointer hover:opacity-80 transition-opacity" data-alt="A small, circular avatar portrait of a professional individual against a neutral background. The lighting is soft and flattering, suitable for a professional software platform profile picture. Deep charcoal UI aesthetic surrounds it." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7cMW_AFYM9mAplqBO8sSEkMgp8J-6mtJPPN6GxSKw6bG3_JO2aZGRPmOlimveK6tzV_a3w70uzwYGkzmlzCNJml_hSoQIvTTCOKWsntAuhaOkWO_BQ72ZzFU02s8DGxGi3API0UqGa1RDT3Cc5VnKZkkLGty0oHgBhJPR7hCh17DuG39YOx9Y-ZJ3UNYuuRU10I3Hmn-I6usy3Xljk95_m7dqZamLCgySddMKL4RD3PikMb7u3-uWDBUy8t-C0bCoSwlgp-uY9Z4"/>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-y-auto p-md md:p-2xl">
+<div class="max-w-container-max mx-auto">
+<!-- Page Header & Actions -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-xl">
+<div>
+<h2 class="font-h1 text-h1 text-on-surface">Technical Domains</h2>
+<p class="text-on-surface-variant mt-xs">Manage your core competencies and interview preparations.</p>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative w-full md:w-64">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-on-surface-variant">search</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg pl-xl pr-sm py-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-on-surface-variant font-body-sm text-body-sm" placeholder="Filter domains..." type="text"/>
+<div class="absolute right-sm top-1/2 -translate-y-1/2 bg-surface-variant rounded px-xs py-[2px] text-on-surface-variant text-[10px] font-code">⌘F</div>
+</div>
+<button class="ai-gradient-bg text-on-surface px-md py-sm rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center gap-sm whitespace-nowrap shadow-[0_4px_12px_rgba(103,80,164,0.3)]">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Create Domain</span>
+</button>
+</div>
+</div>
+<!-- Domains Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Domain Card 1 -->
+<div class="glass-panel rounded-xl p-md flex flex-col gap-md hover:border-primary/50 transition-colors group relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-block px-xs py-[2px] rounded bg-error/10 text-error font-label-caps text-label-caps mb-sm border border-error/20">BACKEND</span>
+<h3 class="font-h3 text-h3 text-on-surface">Laravel ORM</h3>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant font-body-sm text-body-sm">
+<span>24 Concepts</span>
+<span class="text-[10px]">•</span>
+<span>18 Mastered</span>
+</div>
+<div class="space-y-xs mt-auto">
+<div class="flex justify-between text-xs text-on-surface-variant">
+<span>Progress</span>
+<span class="text-primary font-code">75%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<div class="flex justify-end gap-sm pt-sm border-t border-outline-variant/50 mt-sm">
+<button class="p-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-sm rounded-lg text-tertiary hover:bg-tertiary/10 transition-colors" title="AI Generate Questions">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+</button>
+</div>
+</div>
+<!-- Domain Card 2 -->
+<div class="glass-panel rounded-xl p-md flex flex-col gap-md hover:border-primary/50 transition-colors group relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-block px-xs py-[2px] rounded bg-primary/10 text-primary font-label-caps text-label-caps mb-sm border border-primary/20">CORE</span>
+<h3 class="font-h3 text-h3 text-on-surface">PHP OOP</h3>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant font-body-sm text-body-sm">
+<span>42 Concepts</span>
+<span class="text-[10px]">•</span>
+<span>38 Mastered</span>
+</div>
+<div class="space-y-xs mt-auto">
+<div class="flex justify-between text-xs text-on-surface-variant">
+<span>Progress</span>
+<span class="text-primary font-code">90%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 90%"></div>
+</div>
+</div>
+<div class="flex justify-end gap-sm pt-sm border-t border-outline-variant/50 mt-sm">
+<button class="p-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-sm rounded-lg text-tertiary hover:bg-tertiary/10 transition-colors" title="AI Generate Questions">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+</button>
+</div>
+</div>
+<!-- Domain Card 3 -->
+<div class="glass-panel rounded-xl p-md flex flex-col gap-md hover:border-primary/50 transition-colors group relative overflow-hidden border-primary/30 shadow-[0_8px_32px_rgba(103,80,164,0.15)]">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-transparent opacity-100"></div>
+<div class="flex justify-between items-start">
+<div>
+<span class="inline-block px-xs py-[2px] rounded bg-tertiary/10 text-tertiary font-label-caps text-label-caps mb-sm border border-tertiary/20">DATABASE</span>
+<h3 class="font-h3 text-h3 text-on-surface flex items-center gap-sm">
+                                    MySQL 
+                                    <span class="material-symbols-outlined text-[16px] text-tertiary" style="font-variation-settings: 'FILL' 1;">star</span>
+</h3>
+</div>
+<button class="text-on-surface-variant hover:text-primary transition-colors opacity-100">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant font-body-sm text-body-sm">
+<span>15 Concepts</span>
+<span class="text-[10px]">•</span>
+<span>5 Mastered</span>
+</div>
+<div class="space-y-xs mt-auto">
+<div class="flex justify-between text-xs text-on-surface-variant">
+<span>Progress</span>
+<span class="text-primary font-code">33%</span>
+</div>
+<div class="h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 33%"></div>
+</div>
+</div>
+<div class="flex justify-end gap-sm pt-sm border-t border-outline-variant/50 mt-sm">
+<button class="p-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="Edit">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="p-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+<button class="p-sm rounded-lg text-tertiary hover:bg-tertiary/10 transition-colors bg-tertiary/5" title="AI Generate Questions">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

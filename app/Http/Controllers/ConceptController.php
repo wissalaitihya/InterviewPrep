@@ -48,7 +48,7 @@ class ConceptController extends Controller
         }
         $domain->concepts()->create($data);
 
-        return redirect()->route('concepts.index', $domain->id)
+        return redirect()->route('domains.concepts.index', $domain->id)
             ->with('success', 'Concept cree.');
     }
 
@@ -74,7 +74,7 @@ class ConceptController extends Controller
         $concept = $domain->concepts()->findOrFail($concept);
         $concept->update($request->validated());
 
-        return redirect()->route('concepts.show', [$domain->id, $concept->id])
+        return redirect()->route('domains.concepts.show', [$domain->id, $concept->id])
             ->with('success', 'Concept mis a jour.');
     }
 
@@ -84,7 +84,7 @@ class ConceptController extends Controller
         $concept = $domain->concepts()->findOrFail($concept);
         $concept->delete();
 
-        return redirect()->route('concepts.index', $domain->id)
+        return redirect()->route('domains.concepts.index', $domain->id)
             ->with('success', 'Concept archive.');
     }
 
@@ -106,7 +106,7 @@ class ConceptController extends Controller
         $concept = $domain->concepts()->onlyTrashed()->findOrFail($concept);
         $concept->restore();
 
-        return redirect()->route('concepts.index', $domain->id)
+        return redirect()->route('domains.concepts.index', $domain->id)
             ->with('success', 'Concept restaure.');
     }
 

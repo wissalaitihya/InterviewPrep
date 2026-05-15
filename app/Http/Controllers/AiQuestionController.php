@@ -14,7 +14,7 @@ class AiQuestionController extends Controller
         $domain = auth()->user()->domains()->findOrFail($domain);
         $concept = $domain->concepts()->findOrFail($concept);
 
-        $apiKey = config('services.groq.key');
+        $apiKey = config('services.groq.api_key');
         if (! $apiKey) {
             return redirect()->back()->with('error', 'Configuration IA manquante.');
         }
@@ -29,7 +29,7 @@ class AiQuestionController extends Controller
         );
 
         try {
-            $response = Http::withToken($apiKey)
+            $response = Http::withHeaders(['Authorization' => 'Bearer '.$apiKey])
                 ->timeout(30)
                 ->post(config('services.groq.url'), [
                     'model' => config('services.groq.model'),
@@ -52,7 +52,8 @@ class AiQuestionController extends Controller
         }
 
         $content = $response->json('choices.0.message.content');
-        $data = json_decode(trim($content), true);
+        $content = preg_replace('/^```(?:json)?\s*|\s*```$/i', '', trim($content));
+        $data = json_decode($content, true);
 
         if (! is_array($data) || ! isset($data['questions']) || ! is_array($data['questions'])) {
             return redirect()->back()->with('error', 'La reponse IA est invalide. Aucune generation n\'a ete sauvegardee.');

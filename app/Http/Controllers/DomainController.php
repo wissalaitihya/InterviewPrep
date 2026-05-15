@@ -36,7 +36,7 @@ class DomainController extends Controller
     {
         Domain::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
 
-        return redirect()->route('concepts.index', $id);
+        return redirect()->route('domains.concepts.index', $id);
     }
 
     public function edit(string $id): View
@@ -59,6 +59,41 @@ class DomainController extends Controller
         $domain = Domain::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
         $domain->delete();
 
-        return redirect()->route('domains.index')->with('success', 'Domaine supprime.');
+        return redirect()->route('domains.index')->with('success', 'Domaine archive avec ses concepts.');
+    }
+
+    public function archived(): View
+    {
+        $domains = auth()->user()->domains()
+            ->onlyTrashed()
+            ->withCount('concepts')
+            ->orderBy('deleted_at', 'desc')
+            ->get();
+
+        return view('domains.archived', compact('domains'));
+    }
+
+    public function restore(int $id): RedirectResponse
+    {
+        $domain = auth()->user()->domains()
+            ->onlyTrashed()
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $domain->restore();
+
+        return redirect()->route('domains.index')->with('success', 'Domaine et ses concepts restores.');
+    }
+
+    public function forceDelete(int $id): RedirectResponse
+    {
+        $domain = auth()->user()->domains()
+            ->onlyTrashed()
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $domain->forceDelete();
+
+        return redirect()->route('domains.archived')->with('success', 'Domaine supprime definitivement.');
     }
 }

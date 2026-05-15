@@ -36,7 +36,7 @@ return [
     ],
 
     'groq' => [
-        'key' => env('GROQ_API_KEY'),
+        'api_key' => env('GROQ_API_KEY'),
         'model' => env('GROQ_MODEL', 'llama-3.3-70b-versatile'),
         'url' => 'https://api.groq.com/openai/v1/chat/completions',
     ],

@@ -20,6 +20,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
             $table->string('name');
             $table->string('color', 7)->default('#3B82F6');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
